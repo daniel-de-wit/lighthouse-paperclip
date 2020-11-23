@@ -9,6 +9,8 @@ env:
     - COMPOSER_FLAGS=""
 
 before_script:
+  - (phpenv config-rm xdebug.ini || exit 0)
+  - pecl install pcov
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
 
