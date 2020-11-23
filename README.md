@@ -7,6 +7,8 @@
 
 This package will add two directives that will support working with [czim/laravel-paperclip](https://github.com/czim/laravel-paperclip).
 
+![](lighthouse-paperclip-demo.gif)
+
 ## Installation
 
 You can install the package via composer:
