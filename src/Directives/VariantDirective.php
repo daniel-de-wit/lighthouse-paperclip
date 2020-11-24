@@ -38,12 +38,11 @@ SDL;
         FieldDefinitionNode &$parentField,
         ObjectTypeDefinitionNode &$parentType
     ): void {
-        var_dump($parentType); exit;
-        $modelFQN = $parentType->directives[0]->arguments[0]->value->value;
-        die($modelFQN);
+        // Todo: Find a better way to determine the Model
+        $modelClass = $parentType->directives[0]->arguments[0]->value->value;
 
         /** @var AttachmentInterface $model */
-        $model = new $modelFQN();
+        $model = new $modelClass();
         $attribute = $parentField->name->value;
 
         $availableVariants = $model->{$attribute}->variants();
@@ -55,7 +54,8 @@ SDL;
             // Check if the pre-defined variants actually exist.
             $faulty = array_diff($allowedVariants, $availableVariants);
             if (count($faulty)) {
-                throw new Exception('Variant(s) "' . implode('", "', $faulty) . '" are not available for attachment "' . $attribute . '" on model "' . $modelFQN . '"');
+                // Todo: Throw dedicated Exception./vendor/bin/php-cs-fixer fix --allow-risky=yes --show-progress=run-in --dry-run
+                throw new Exception('Variant(s) "' . implode('", "', $faulty) . '" are not available for attachment "' . $attribute . '" on model "' . $modelClass . '"');
             }
 
             $variants = $allowedVariants;
