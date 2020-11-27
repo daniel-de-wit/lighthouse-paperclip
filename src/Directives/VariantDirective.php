@@ -43,7 +43,7 @@ SDL;
 
         /** @var AttachmentInterface $model */
         $model = new $modelClass();
-        $attribute = $parentField->name->value;
+        $attribute = Str::snake($parentField->name->value);
 
         $availableVariants = $model->{$attribute}->variants();
         $allowedVariants = $this->directiveArgValue('variants');
