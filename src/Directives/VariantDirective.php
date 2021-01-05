@@ -9,9 +9,9 @@ use Exception;
 use GraphQL\Language\AST\FieldDefinitionNode;
 use GraphQL\Language\AST\InputValueDefinitionNode;
 use GraphQL\Language\AST\ObjectTypeDefinitionNode;
+use GraphQL\Language\Parser;
 use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Schema\AST\DocumentAST;
-use Nuwave\Lighthouse\Schema\AST\PartialParser;
 use Nuwave\Lighthouse\Schema\Directives\BaseDirective;
 use Nuwave\Lighthouse\Support\Contracts\ArgManipulator;
 
@@ -62,7 +62,7 @@ SDL;
         }
 
         $resizeEnumName = Str::studly($parentField->name->value) . Str::studly($argDefinition->name->value);
-        $argDefinition->type = PartialParser::namedType($resizeEnumName);
+        $argDefinition->type = Parser::namedType($resizeEnumName);
 
 
         $enumValues = collect($variants)->map(function (string $variant) {
@@ -76,7 +76,7 @@ SDL;
         $enumDefinition .= '}';
 
         $documentAST->setTypeDefinition(
-            PartialParser::enumTypeDefinition($enumDefinition)
+            Parser::enumTypeDefinition($enumDefinition)
         );
     }
 }
