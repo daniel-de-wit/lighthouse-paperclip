@@ -51,6 +51,13 @@ SDL;
         $attribute = Str::snake($parentField->name->value);
 
         $availableVariants = $model->{$attribute}->variants();
+
+        foreach ($availableVariants as $variant) {
+            if (preg_match('/^[0-9]/', $variant)) {
+                throw new \RuntimeException('Unable to create enum value for ' . $modelFQN . ' ' . $attribute . ' Attachment variant "' . $variant . '", due to starting with integer');
+            }
+        }
+
         $allowedVariants = $this->directiveArgValue('variants');
 
         $variants = $availableVariants;
