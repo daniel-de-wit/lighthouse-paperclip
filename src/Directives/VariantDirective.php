@@ -11,6 +11,7 @@ use GraphQL\Language\AST\InputValueDefinitionNode;
 use GraphQL\Language\AST\ObjectTypeDefinitionNode;
 use GraphQL\Language\Parser;
 use Illuminate\Support\Str;
+use Nuwave\Lighthouse\Schema\AST\ASTHelper;
 use Nuwave\Lighthouse\Schema\AST\DocumentAST;
 use Nuwave\Lighthouse\Schema\Directives\BaseDirective;
 use Nuwave\Lighthouse\Support\Contracts\ArgManipulator;
@@ -37,12 +38,16 @@ SDL;
         InputValueDefinitionNode &$argDefinition,
         FieldDefinitionNode &$parentField,
         ObjectTypeDefinitionNode &$parentType
-    ): void {
-        // Todo: Find a better way to determine the Model
-        $modelClass = $parentType->directives[0]->arguments[0]->value->value;
+    ): void
+    {
+        $modelName = ASTHelper::modelName($parentType);
+
+        $modelFQN = $this->namespaceModelClass(
+            $modelName,
+        );
 
         /** @var AttachmentInterface $model */
-        $model = new $modelClass();
+        $model = new $modelFQN();
         $attribute = Str::snake($parentField->name->value);
 
         $availableVariants = $model->{$attribute}->variants();
@@ -55,7 +60,7 @@ SDL;
             $faulty = array_diff($allowedVariants, $availableVariants);
             if (count($faulty)) {
                 // Todo: Throw dedicated Exception./vendor/bin/php-cs-fixer fix --allow-risky=yes --show-progress=run-in --dry-run
-                throw new Exception('Variant(s) "' . implode('", "', $faulty) . '" are not available for attachment "' . $attribute . '" on model "' . $modelClass . '"');
+                throw new Exception('Variant(s) "' . implode('", "', $faulty) . '" are not available for attachment "' . $attribute . '" on model "' . $modelFQN . '"');
             }
 
             $variants = $allowedVariants;
