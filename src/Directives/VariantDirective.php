@@ -50,7 +50,7 @@ SDL;
         $model = new $modelFQN();
         $attribute = Str::snake($parentField->name->value);
 
-        $availableVariants = $model->{$attribute}->variants();
+        $availableVariants = $model->{$attribute}->variants(true);
 
         foreach ($availableVariants as $variant) {
             if (preg_match('/^[0-9]/', $variant)) {
