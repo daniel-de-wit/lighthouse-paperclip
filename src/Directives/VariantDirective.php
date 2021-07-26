@@ -73,7 +73,7 @@ SDL;
             $variants = $allowedVariants;
         }
 
-        $resizeEnumName = ASTHelper::modelName($parentType) . Str::studly($parentField->name->value) . Str::studly($argDefinition->name->value);
+        $resizeEnumName = $parentType->name->value  . Str::studly($parentField->name->value) . Str::studly($argDefinition->name->value);
         $argDefinition->type = Parser::namedType($resizeEnumName);
 
         $enumValues = collect($variants)->map(function (string $variant) {
