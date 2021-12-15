@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^8.0",
         "czim/laravel-paperclip": "^4.0",
         "nuwave/lighthouse": "^5"
     },
