@@ -3,9 +3,8 @@ setup:
 	@docker-compose  run --rm app composer install
 
 destroy:
-	@docker-compose down --rmakemove-orphans --volumes
+	@docker-compose down --remove-orphans --volumes
 
-.PHONY: app
 app:
 	@docker-compose run --rm app sh
 

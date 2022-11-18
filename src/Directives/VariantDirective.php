@@ -38,8 +38,8 @@ SDL;
         InputValueDefinitionNode &$argDefinition,
         FieldDefinitionNode &$parentField,
         ObjectTypeDefinitionNode &$parentType
-    ): void
-    {
+    ): void {
+        /** @var string $modelName */
         $modelName = ASTHelper::modelName($parentType);
 
         $modelFQN = $this->namespaceModelClass(
@@ -53,37 +53,39 @@ SDL;
         $availableVariants = $model->{$attribute}->variants(true);
 
         foreach ($availableVariants as $variant) {
-            if (preg_match('/^[0-9]/', $variant)) {
-                throw new \RuntimeException('Unable to create enum value for ' . $modelFQN . ' ' . $attribute . ' Attachment variant "' . $variant . '", due to starting with integer');
+            if (preg_match('#^[0-9]#', (string) $variant)) {
+                throw new \RuntimeException('Unable to create enum value for '.$modelFQN.' '.$attribute.' Attachment variant "'.$variant.'", due to starting with integer');
             }
         }
 
+        /** @var array<string> $allowedVariants */
         $allowedVariants = $this->directiveArgValue('variants');
 
+        /** @var array<string> $variants */
         $variants = $availableVariants;
 
         if ($allowedVariants) {
             // Check if the pre-defined variants actually exist.
             $faulty = array_diff($allowedVariants, $availableVariants);
-            if (count($faulty)) {
-                // Todo: Throw dedicated Exception./vendor/bin/php-cs-fixer fix --allow-risky=yes --show-progress=run-in --dry-run
-                throw new Exception('Variant(s) "' . implode('", "', $faulty) . '" are not available for attachment "' . $attribute . '" on model "' . $modelFQN . '"');
+            if ($faulty !== []) {
+                throw new Exception('Variant(s) "'.implode('", "', $faulty).'" are not available for attachment "'.$attribute.'" on model "'.$modelFQN.'"');
             }
 
             $variants = $allowedVariants;
         }
 
-        $resizeEnumName = $parentType->name->value  . Str::studly($parentField->name->value) . Str::studly($argDefinition->name->value);
+        $resizeEnumName = $parentType->name->value.Str::studly($parentField->name->value).Str::studly($argDefinition->name->value);
         $argDefinition->type = Parser::namedType($resizeEnumName);
 
-        $enumValues = collect($variants)->map(function (string $variant) {
-            return strtoupper($variant) . ' @enum(value: "' . $variant . '")';
+        $enumValues = collect($variants)->map(function (string $variant): string {
+            return strtoupper($variant).' @enum(value: "'.$variant.'")';
         });
 
-        $enumDefinition = "\"Allowed resizes for the `{$argDefinition->name->value}` argument on the query `{$parentField->name->value}`.\"\n" . "enum $resizeEnumName {\n";
+        $enumDefinition = "\"Allowed resizes for the `{$argDefinition->name->value}` argument on the query `{$parentField->name->value}`.\"\n"."enum {$resizeEnumName} {\n";
         foreach ($enumValues as $enumValue) {
-            $enumDefinition .= "$enumValue\n";
+            $enumDefinition .= "{$enumValue}\n";
         }
+
         $enumDefinition .= '}';
 
         $documentAST->setTypeDefinition(

@@ -4,7 +4,6 @@
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Build Status](https://img.shields.io/travis/daniel-de-wit/lighthouse-paperclip/master.svg?style=flat-square)](https://travis-ci.org/daniel-de-wit/lighthouse-paperclip)
 [![Coverage Status](https://coveralls.io/repos/github/daniel-de-wit/lighthouse-paperclip/badge.svg?branch=master)](https://coveralls.io/github/daniel-de-wit/lighthouse-paperclip?branch=master)
-[![Quality Score](https://img.shields.io/scrutinizer/g/daniel-de-wit/lighthouse-paperclip.svg?style=flat-square)](https://scrutinizer-ci.com/g/daniel-de-wit/lighthouse-paperclip)
 [![Total Downloads](https://img.shields.io/packagist/dt/daniel-de-wit/lighthouse-paperclip.svg?style=flat-square)](https://packagist.org/packages/daniel-de-wit/lighthouse-paperclip)
 
 This package will add two directives that will support working with [czim/laravel-paperclip](https://github.com/czim/laravel-paperclip).
