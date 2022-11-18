@@ -41,9 +41,20 @@ type Blog {
 composer test
 ```
 
-### Changelog
+## Development (docker)
 
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+```shell
+make setup
+```
+
+```shell
+make test
+```
+
+PHP CLI
+```shell
+make app
+```
 
 ## Contributing
 

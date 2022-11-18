@@ -12,3 +12,6 @@
 /.coveralls.yml                    export-ignore
 /.styleci.yml                      export-ignore
 /lighthouse-paperclip-demo.gif     export-ignore
+/docker                            export-ignore
+/docker-compose.yml                export-ignore
+/Makefile                          export-ignore
