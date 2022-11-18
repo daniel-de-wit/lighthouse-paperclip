@@ -1,15 +1,14 @@
 {
     "name": "daniel-de-wit/lighthouse-paperclip",
     "description": "Lighthouse GraphQL Directives for Paperclip attachment support",
+    "license": "MIT",
+    "type": "library",
     "keywords": [
         "daniel-de-wit",
         "laravel-paperclip",
         "lighthouse",
         "lighthouse-paperclip"
     ],
-    "homepage": "https://github.com/daniel-de-wit/lighthouse-paperclip",
-    "license": "MIT",
-    "type": "library",
     "authors": [
         {
             "name": "Daniel de Wit",
@@ -17,15 +16,21 @@
             "role": "Developer"
         }
     ],
+    "homepage": "https://github.com/daniel-de-wit/lighthouse-paperclip",
     "require": {
-        "php": "^7.4|^8.0",
-        "czim/laravel-paperclip": "^3|^4",
+        "php": "^8.1",
+        "czim/laravel-paperclip": "^5",
         "nuwave/lighthouse": "^5"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.0",
+        "laravel/pint": "^1.2",
+        "nunomaduro/larastan": "^2.2",
+        "orchestra/testbench": "^7.11",
         "php-coveralls/php-coveralls": "^2.4",
-        "phpunit/phpunit": "^9.0"
+        "phpstan/phpstan-mockery": "^1.1",
+        "phpstan/phpstan-phpunit": "^1.2",
+        "phpunit/phpunit": "^9.5",
+        "rector/rector": "^0.14.8"
     },
     "autoload": {
         "psr-4": {
@@ -37,10 +42,6 @@
             "DanielDeWit\\LighthousePaperclip\\Tests\\": "tests"
         }
     },
-    "scripts": {
-        "test": "vendor/bin/phpunit",
-        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
-    },
     "config": {
         "sort-packages": true
     },
@@ -50,5 +51,15 @@
                 "DanielDeWit\\LighthousePaperclip\\Providers\\LighthousePaperclipServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php ./vendor/bin/testbench package:discover --ansi"
+        ],
+        "coverage": "vendor/bin/phpunit",
+        "phpstan": "vendor/bin/phpstan analyse",
+        "pint": "vendor/bin/pint",
+        "rector": "vendor/bin/rector",
+        "test": "vendor/bin/phpunit --no-coverage"
     }
 }

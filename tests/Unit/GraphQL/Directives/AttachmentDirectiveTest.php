@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DanielDeWit\LighthousePaperclip\Tests\Directives;
+namespace DanielDeWit\LighthousePaperclip\Tests\Unit\GraphQL\Directives;
 
 use Czim\Paperclip\Attachment\Attachment;
 use Illuminate\Database\Eloquent\Model;
