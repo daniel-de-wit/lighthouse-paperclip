@@ -7,6 +7,7 @@ namespace DanielDeWit\LighthousePaperclip\Tests\Unit;
 use DanielDeWit\LighthousePaperclip\Providers\LighthousePaperclipServiceProvider;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Nuwave\Lighthouse\LighthouseServiceProvider;
+use Nuwave\Lighthouse\Testing\TestingServiceProvider;
 use Orchestra\Testbench\TestCase;
 
 abstract class UnitTest extends TestCase
@@ -18,6 +19,7 @@ abstract class UnitTest extends TestCase
         return [
             LighthouseServiceProvider::class,
             LighthousePaperclipServiceProvider::class,
+            TestingServiceProvider::class,
         ];
     }
 
