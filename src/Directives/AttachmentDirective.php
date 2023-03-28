@@ -6,7 +6,7 @@ namespace DanielDeWit\LighthousePaperclip\Directives;
 
 use Closure;
 use Czim\Paperclip\Contracts\AttachmentInterface;
-use GraphQL\Type\Definition\ResolveInfo;
+use Nuwave\Lighthouse\Execution\ResolveInfo;
 use Nuwave\Lighthouse\Schema\Directives\BaseDirective;
 use Nuwave\Lighthouse\Schema\Values\FieldValue;
 use Nuwave\Lighthouse\Support\Contracts\FieldMiddleware;
@@ -24,26 +24,13 @@ directive @attachment on FIELD_DEFINITION
 SDL;
     }
 
-    public function handleField(FieldValue $fieldValue, Closure $next): FieldValue
+    public function handleField(FieldValue $fieldValue): void
     {
-        // Retrieve the existing resolver function
-        /** @var Closure $previousResolver */
-        $previousResolver = $fieldValue->getResolver();
-
-        // Wrap around the resolver
-        $wrappedResolver = function ($root, array $args, GraphQLContext $context, ResolveInfo $info) use ($previousResolver): ?string {
-            // Call the resolver, passing along the resolver arguments
-            /** @var AttachmentInterface $result */
-            $result = $previousResolver($root, $args, $context, $info);
+        $fieldValue->wrapResolver(fn (callable $resolver): Closure => function (mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) use ($resolver) {
+            /** @var AttachmentInterface $result $result */
+            $result = $resolver($root, $args, $context, $resolveInfo);
 
             return $result->url($args['variant'] ?? null);
-        };
-
-        // Place the wrapped resolver back upon the FieldValue
-        // It is not resolved right now - we just prepare it
-        $fieldValue->setResolver($wrappedResolver);
-
-        // Keep the middleware chain going
-        return $next($fieldValue);
+        });
     }
 }
