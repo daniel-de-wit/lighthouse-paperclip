@@ -17,12 +17,6 @@
         }
     ],
     "homepage": "https://github.com/daniel-de-wit/lighthouse-paperclip",
-     "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/daniel-de-wit/laravel-paperclip.git"
-        }
-    ],
     "require": {
         "php": "^8.1",
         "czim/laravel-paperclip": "dev-master",
@@ -38,6 +32,12 @@
         "phpunit/phpunit": "^9.5",
         "rector/rector": "^0.14.8"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/daniel-de-wit/laravel-paperclip.git"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "DanielDeWit\\LighthousePaperclip\\": "src"
